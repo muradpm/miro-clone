@@ -1,3 +1,12 @@
+import { UserButton } from "@clerk/nextjs";
+
 export default function Home() {
-  return <p>Hello World</p>;
+  return (
+    <div>
+      Hello World
+      <div>
+        <UserButton />
+      </div>
+    </div>
+  );
 }
