@@ -1,7 +1,11 @@
+import { OrgList } from "./org-list";
+import { NewOrg } from "./new-org-button";
+
 export const Sidebar = () => {
   return (
-    <aside className="fixed z-[1] left-0 bg-gray-200 h-full w-[60px] flex flex-col p-3  gap-y-4">
-      Sidebar
+    <aside className="fixed z-[1] left-0 bg-blue-950 h-full w-[60px] flex p-3 flex-col gap-y-4 text-transparent ">
+      <OrgList />
+      <NewOrg />
     </aside>
   );
 };
