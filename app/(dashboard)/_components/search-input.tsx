@@ -1,44 +1,44 @@
 "use client";
 
+import qs from "query-string";
 import { Search } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect, ChangeEvent } from "react";
-import { useDebouncedCallback } from "use-debounce";
+import { useDebounceValue } from "usehooks-ts";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, useEffect, useState } from "react";
 
 import { Input } from "@/components/ui/input";
 
 export const SearchInput = () => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const [value, setValue] = useState(searchParams.get("query") || "");
+  const [value, setValue] = useState("");
+  const [debouncedValue, setDebouncedValue] = useDebounceValue(value, 500);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setValue(e.target.value);
   };
 
-  const debouncedSearch = useDebouncedCallback((searchValue) => {
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    if (searchValue && searchValue.trim() !== "") {
-      newSearchParams.set("query", searchValue);
-    } else {
-      newSearchParams.delete("query");
-    }
-    router.push(`?${newSearchParams.toString()}`);
-  }, 500);
-
   useEffect(() => {
-    debouncedSearch(value);
-  }, [value, debouncedSearch]);
+    const url = qs.stringifyUrl(
+      {
+        url: "/",
+        query: {
+          search: debouncedValue,
+        },
+      },
+      { skipEmptyString: true, skipNull: true }
+    );
+
+    router.push(url);
+  }, [debouncedValue, router]);
 
   return (
     <div className="w-full relative">
-      <Search className="absolute top-1/2 -translate-y-1/2 left-3 transform text-muted-foreground h-4 w-4" />
+      <Search className="absolute top-1/2 left-3 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
       <Input
         className="w-full max-w-[516px] pl-9"
-        placeholder="Search"
-        type="search"
-        value={value}
+        placeholder="Search boards"
         onChange={handleChange}
+        value={value}
       />
     </div>
   );
