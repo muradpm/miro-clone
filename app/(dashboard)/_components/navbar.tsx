@@ -30,7 +30,7 @@ export const Navbar = () => {
                 maxWidth: "376px",
               },
               organizationSwitcherTrigger: {
-                padding: "6px",
+                padding: "4px",
                 width: "100%",
                 borderRadius: "8px",
                 border: "1px solid #E5E7EB",

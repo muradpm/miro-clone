@@ -40,7 +40,7 @@ export const OrgSidebar = () => {
               width: "100%",
             },
             organizationSwitcherTrigger: {
-              padding: "6px",
+              padding: "4px",
               width: "100%",
               borderRadius: "8px",
               border: "1px solid #E5E7EB",
@@ -54,7 +54,6 @@ export const OrgSidebar = () => {
         <Button
           variant={favorites ? "ghost" : "secondary"}
           asChild
-          size="lg"
           className="font-normal justify-start px-2 w-full"
         >
           <Link href="/">
@@ -65,7 +64,6 @@ export const OrgSidebar = () => {
         <Button
           variant={favorites ? "secondary" : "ghost"}
           asChild
-          size="lg"
           className="font-normal justify-start px-2 w-full"
         >
           <Link
