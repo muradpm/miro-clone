@@ -1,14 +1,18 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { api } from "@/convex/_generated/api";
 import { useOrganization } from "@clerk/nextjs";
 import { useApiMutation } from "@/hooks/use-api-mutation";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 import { CircuitBoard, Plus, LoaderCircle } from "lucide-react";
 
 export const EmptyBoardsState = () => {
+  const router = useRouter();
   const { organization } = useOrganization();
   const { mutate, pending } = useApiMutation(api.board.create);
 
@@ -18,7 +22,14 @@ export const EmptyBoardsState = () => {
     mutate({
       title: "Untitled",
       orgId: organization.id,
-    });
+    })
+      .then((id) => {
+        toast.success("Board created");
+        router.push(`/board/${id}`);
+      })
+      .catch(() => {
+        toast.error("Failed to create board");
+      });
   };
 
   return (

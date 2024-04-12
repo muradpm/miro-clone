@@ -1,5 +1,7 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+
 import { Plus, LoaderCircle } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -14,6 +16,7 @@ interface NewBoardButtonProps {
 }
 
 export const NewBoardButton = ({ orgId, disabled }: NewBoardButtonProps) => {
+  const router = useRouter();
   const { mutate, pending } = useApiMutation(api.board.create);
 
   const onClick = () => {
@@ -22,6 +25,7 @@ export const NewBoardButton = ({ orgId, disabled }: NewBoardButtonProps) => {
       title: "Untitled",
     })
       .then((id) => {
+        router.push(`/board/${id}`);
         toast.success("Board created");
       })
       .catch(() => toast.error("Failed to create board"));
