@@ -56,15 +56,11 @@ export const BoardCard = ({
   const handleFavorite = () => {
     if (isFavorite) {
       onUnfavorite({ id })
-        .then(() =>
-          toast.success(`Board <strong>${title}</strong> is unfavorited`)
-        )
+        .then(() => toast.success(`Board is unfavorited`))
         .catch(() => toast.error("Failed to unfavorite"));
     } else {
       onFavorite({ id, orgId })
-        .then(() =>
-          toast.success(`Board <strong>${title}</strong> is favorited`)
-        )
+        .then(() => toast.success(`Board is favorited`))
         .catch(() => toast.error("Failed to favorite"));
     }
   };
