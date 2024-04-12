@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Toaster } from "@/components/ui/sonner";
+import { ModalProvider } from "@/providers/modal-provider";
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
 
@@ -21,6 +22,7 @@ export default function RootLayout({
       <body className={GeistSans.className}>
         <ConvexClientProvider>
           <Toaster />
+          <ModalProvider />
           {children}
         </ConvexClientProvider>{" "}
       </body>
