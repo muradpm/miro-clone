@@ -3,7 +3,9 @@
 import Link from "next/link";
 import Image from "next/image";
 
+import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
+
 import { MoreHorizontal } from "lucide-react";
 
 import { formatDistanceToNow } from "date-fns";
@@ -13,6 +15,8 @@ import { Footer } from "./footer";
 
 import { useAuth } from "@clerk/nextjs";
 import { BoardActions } from "@/components/board-actions";
+import { useApiMutation } from "@/hooks/use-api-mutation";
+import { api } from "@/convex/_generated/api";
 
 interface BoardCardProps {
   id: string;
@@ -41,6 +45,30 @@ export const BoardCard = ({
     userId === authorId ? "Modified by me" : `Modified by ${authorName}`;
   const createdAtLabel = formatDistanceToNow(createdAt, { addSuffix: true });
 
+  const { mutate: onFavorite, pending: onFavoritePending } = useApiMutation(
+    api.board.toggleFavorite
+  );
+
+  const { mutate: onUnfavorite, pending: onUnfavoritePending } = useApiMutation(
+    api.board.toggleUnfavorite
+  );
+
+  const handleFavorite = () => {
+    if (isFavorite) {
+      onUnfavorite({ id })
+        .then(() =>
+          toast.success(`Board <strong>${title}</strong> is unfavorited`)
+        )
+        .catch(() => toast.error("Failed to unfavorite"));
+    } else {
+      onFavorite({ id, orgId })
+        .then(() =>
+          toast.success(`Board <strong>${title}</strong> is favorited`)
+        )
+        .catch(() => toast.error("Failed to favorite"));
+    }
+  };
+
   return (
     <Link href={`/board/${id}`}>
       <div className="group aspect-[100/127] border rounded-lg flex flex-col justify-between overflow-hidden">
@@ -58,8 +86,8 @@ export const BoardCard = ({
           title={title}
           authorLabel={authorLabel}
           createdAtLabel={createdAtLabel}
-          onClick={() => {}}
-          disabled={false}
+          onClick={handleFavorite}
+          disabled={onFavoritePending || onUnfavoritePending}
         />
       </div>
     </Link>
