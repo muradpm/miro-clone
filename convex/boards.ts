@@ -3,7 +3,7 @@ import { getAllOrThrow } from "convex-helpers/server/relationships";
 
 import { query } from "./_generated/server";
 
-export const getBoards = query({
+export const get = query({
   args: {
     orgId: v.string(),
     search: v.optional(v.string()),
