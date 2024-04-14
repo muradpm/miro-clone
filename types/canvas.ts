@@ -2,13 +2,13 @@ export type Color = {
   r: number;
   g: number;
   b: number;
-  a: number;
+  // a: number;
 };
 
 export type Camera = {
   x: number;
   y: number;
-  zoom: number;
+  // zoom: number;
 };
 
 export enum LayerType {
