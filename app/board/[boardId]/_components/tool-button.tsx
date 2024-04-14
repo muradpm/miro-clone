@@ -23,7 +23,7 @@ export const ToolButton = ({
   return (
     <Hint label={label} side="right" sideOffset={14}>
       <Button
-        variant={isActive ? "secondary" : "ghost"}
+        variant={isActive ? "default" : "ghost"}
         size="icon"
         onClick={onClick}
         disabled={isDisabled}
