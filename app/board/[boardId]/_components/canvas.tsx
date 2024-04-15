@@ -23,6 +23,7 @@ import { Participants } from "./participants";
 import { CursorsPresence } from "./cursors-presence";
 import { LayerPreview } from "./layer-preview";
 import { SelectionBox } from "./selection-box";
+import { SelectionTools } from "./selection-tools";
 
 import {
   connectionIdToColor,
@@ -52,10 +53,10 @@ export const Canvas = ({ boardId }: CanvasProps) => {
     mode: CanvasMode.None,
   });
   const [camera, setCamera] = useState<Camera>({ x: 0, y: 0 });
-  const [lastUserColor, setLastUserColor] = useState<Color>({
-    r: 0,
-    g: 0,
-    b: 0,
+  const [lastUsedColor, setLastUsedColor] = useState<Color>({
+    r: 255,
+    g: 249,
+    b: 177,
   });
 
   const history = useHistory();
@@ -85,7 +86,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         y: position.y,
         height: 100,
         width: 100,
-        fill: lastUserColor,
+        fill: lastUsedColor,
 
         // height: layerType === LayerType.Text ? 500: 100,
       });
@@ -96,7 +97,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
       setMyPresence({ selection: [layerId] }, { addToHistory: true });
       setCanvasState({ mode: CanvasMode.None });
     },
-    [lastUserColor]
+    [lastUsedColor]
   );
 
   const translateSelectedLayers = useMutation(
@@ -276,6 +277,7 @@ export const Canvas = ({ boardId }: CanvasProps) => {
         canUndo={canUndo}
         canRedo={canRedo}
       />
+      <SelectionTools camera={camera} setLastUsedColor={setLastUsedColor} />
       <svg
         className="h-[100vh] w-[100vw]"
         onWheel={onWheel}
